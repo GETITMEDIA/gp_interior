@@ -2,6 +2,7 @@
 	var tpj=jQuery;                  
     var revapi486;
     tpj(document).ready(function() {
+        if (!tpj("#rev_slider_one").length) return;
         if(tpj("#rev_slider_one").revolution == undefined){
             revslider_showDoubleJqueryError("#rev_slider_one");
         }else{
@@ -80,7 +81,7 @@
 		 
 		 
 		 
-		 if(tpj("#rev_slider_two").revolution == undefined){
+		 if(tpj("#rev_slider_two").length && tpj("#rev_slider_two").revolution == undefined){
             revslider_showDoubleJqueryError("#rev_slider_two");
         }else{
             revapi486 = tpj("#rev_slider_two").show().revolution({
@@ -160,7 +161,7 @@
 		 
 		 
 		 
-		  if(tpj("#rev_slider_three").revolution == undefined){
+		  if(tpj("#rev_slider_three").length && tpj("#rev_slider_three").revolution == undefined){
             revslider_showDoubleJqueryError("#rev_slider_three");
         }else{
             revapi486 = tpj("#rev_slider_three").show().revolution({

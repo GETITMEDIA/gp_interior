@@ -1,0 +1,178 @@
+/* ==========================================================================
+   GP INTERIOR - PURE ARCHITECTURAL WALKTHROUGH HERO
+   (DESKTOP FIXED CANVAS SCRUBBING & MOBILE VIDEO AUTOPLAY - ZERO TEXT OVERLAYS)
+   ========================================================================== */
+
+/* --------------------------------------------------------------------------
+   0. PARENT OVERFLOW OVERRIDE (Fix for template .page-wrapper overflow:hidden)
+   -------------------------------------------------------------------------- */
+.page-wrapper {
+    overflow: visible !important;
+}
+
+html, body {
+    overflow-x: hidden;
+}
+
+/* --------------------------------------------------------------------------
+   1. DESKTOP VIEW (>= 992px): PURE FULLSCREEN CANVAS WALKTHROUGH
+   -------------------------------------------------------------------------- */
+.hero-walkthrough-desktop {
+    position: relative;
+    width: 100%;
+    height: 300vh; /* Scrubbing distance across 240 frames */
+    margin: 0;
+    padding: 0;
+    background: transparent !important;
+}
+
+/* Pinned to Viewport: 100% Fixed so it never scrolls up or reveals empty space */
+.hero-sticky-pin {
+    position: fixed !important;
+    top: 0 !important;
+    left: 0 !important;
+    width: 100% !important;
+    height: 100vh !important;
+    overflow: hidden;
+    background-color: #000000;
+    z-index: 1;
+}
+
+/* Background Canvas (Edge to Edge 100% Fullscreen) */
+#hero-canvas {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    display: block;
+    z-index: 1;
+    pointer-events: none;
+}
+
+/* Subtle Top Header Contrast Only (No left/center dark shadows) */
+.hero-canvas-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0.70) 0%, 
+        rgba(0, 0, 0, 0.20) 12%, 
+        transparent 25%);
+}
+
+/* Minimal Bottom Progress Line */
+.hero-progress-line {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    height: 4px;
+    background: rgba(255, 255, 255, 0.15);
+    z-index: 5;
+    pointer-events: none;
+}
+
+.hero-progress-fill {
+    height: 100%;
+    width: 0%;
+    background: linear-gradient(90deg, #c49645, #e9c37a, #ffd88b);
+    box-shadow: 0 0 10px rgba(233, 195, 122, 0.8);
+    transition: width 0.04s linear;
+}
+
+/* --------------------------------------------------------------------------
+   2. SECTIONS FOLLOWING HERO: SOLID BACKGROUND & HIGHER Z-INDEX
+   (When user finishes scrubbing, .about-section smoothly covers hero)
+   -------------------------------------------------------------------------- */
+.about-section,
+.container-fluid,
+.story-section,
+.product-tab-section,
+.projects-section,
+.branded-section,
+.testimonial-section-two,
+.team-section,
+.main-footer {
+    position: relative;
+    z-index: 10;
+    background-color: #ffffff;
+}
+
+/* --------------------------------------------------------------------------
+   3. MOBILE & TABLET VIEW (< 992px): PURE FULLSCREEN AUTOPLAY VIDEO
+   -------------------------------------------------------------------------- */
+.hero-video-mobile {
+    display: none;
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    min-height: 520px;
+    background-color: #000000;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-mobile-video-wrap {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    overflow: hidden;
+    z-index: 1;
+}
+
+.hero-mobile-bg-video {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+    display: block;
+}
+
+.hero-mobile-video-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    z-index: 2;
+    pointer-events: none;
+    background: linear-gradient(180deg, 
+        rgba(0, 0, 0, 0.70) 0%, 
+        rgba(0, 0, 0, 0.20) 14%, 
+        transparent 30%);
+}
+
+
+/* --------------------------------------------------------------------------
+   4. RESPONSIVE BREAKPOINT SWITCHING
+   -------------------------------------------------------------------------- */
+@media (max-width: 991px) {
+    .hero-walkthrough-desktop {
+        display: none !important;
+    }
+    .hero-sticky-pin {
+        display: none !important;
+    }
+    .hero-video-mobile {
+        display: block !important;
+    }
+}
+
+@media (min-width: 992px) {
+    .hero-walkthrough-desktop {
+        display: block !important;
+    }
+    .hero-sticky-pin {
+        display: block !important;
+    }
+    .hero-video-mobile {
+        display: none !important;
+    }
+}
