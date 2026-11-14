@@ -25,10 +25,11 @@
       '.team-block',
       '.news-block',
       '.gp-trust-item',
-      '.gp-cta-box'
+      '.gp-cta-box',
+      '.gp-contact-card'
     ];
 
-    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',')))
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',') + ',[data-gp-reveal]'))
       .filter(function (el) { return !el.closest('.owl-carousel'); });
     if (!nodes.length) return;
 
@@ -305,6 +306,336 @@
     updateNavbar();
   }
 
+  function initContactFormValidation() {
+    var form = document.getElementById('contact-form');
+    if (!form) return;
+
+    var nameInput = document.getElementById('gp-form-name');
+    var emailInput = document.getElementById('gp-form-email');
+    var serviceSelect = document.getElementById('gp-form-service');
+    var phoneInput = document.getElementById('gp-form-phone');
+    var phoneGroup = document.getElementById('gp-phone-group');
+    var phoneCounter = document.getElementById('gp-phone-counter');
+    var messageTextarea = document.getElementById('gp-form-message');
+    var submitBtn = document.getElementById('gp-submit-btn');
+    var successBanner = document.getElementById('gp-form-success');
+    var directWaLink = document.getElementById('gp-direct-wa-link');
+
+    var feedbackName = document.getElementById('feedback-name');
+    var feedbackEmail = document.getElementById('feedback-email');
+    var feedbackService = document.getElementById('feedback-service');
+    var feedbackPhone = document.getElementById('feedback-phone');
+
+    var hasSubmitted = false;
+
+    // --- Phone: Strict Digits Only & +91 Prefix Handling ---
+    if (phoneInput) {
+      // 1. Block keydown for non-digit keys
+      phoneInput.addEventListener('keydown', function(e) {
+        var allowedKeys = [
+          'Backspace', 'Delete', 'Tab', 'Escape', 'Enter',
+          'ArrowLeft', 'ArrowRight', 'ArrowUp', 'ArrowDown',
+          'Home', 'End'
+        ];
+        if (allowedKeys.indexOf(e.key) !== -1) return;
+
+        // Allow Ctrl / Cmd combinations (Copy, Paste, Cut, Select All)
+        if ((e.ctrlKey || e.metaKey) && ['a', 'c', 'v', 'x'].indexOf(e.key.toLowerCase()) !== -1) {
+          return;
+        }
+
+        // Block any character that is not a numeric digit 0-9
+        if (!/^[0-9]$/.test(e.key)) {
+          e.preventDefault();
+        }
+      });
+
+      // 2. Strip any non-digit on input & update counter
+      phoneInput.addEventListener('input', function() {
+        var clean = this.value.replace(/\D/g, '');
+        if (clean.length > 10) {
+          clean = clean.slice(0, 10);
+        }
+        this.value = clean;
+        updatePhoneCounter();
+
+        if (hasSubmitted) {
+          validatePhone();
+        }
+      });
+
+      // 3. Paste sanitization (strip symbols, handle +91 / 91 prefix in pasted string)
+      phoneInput.addEventListener('paste', function(e) {
+        e.preventDefault();
+        var clipboardData = e.clipboardData || window.clipboardData;
+        var pastedText = clipboardData ? clipboardData.getData('text') : '';
+        var clean = pastedText.replace(/\D/g, '');
+
+        // If user copied 12-digit format with 91 at start (e.g. 919566795017), strip 91
+        if (clean.length === 12 && clean.indexOf('91') === 0) {
+          clean = clean.slice(2);
+        } else if (clean.length === 11 && clean.indexOf('0') === 0) {
+          // If copied with leading 0 (e.g. 09566795017), strip 0
+          clean = clean.slice(1);
+        }
+
+        if (clean.length > 10) {
+          clean = clean.slice(0, 10);
+        }
+
+        this.value = clean;
+        updatePhoneCounter();
+
+        if (hasSubmitted) {
+          validatePhone();
+        }
+      });
+
+      // 4. Focus / Blur styling on composite input group
+      phoneInput.addEventListener('focus', function() {
+        if (phoneGroup) phoneGroup.classList.add('is-focused');
+      });
+
+      phoneInput.addEventListener('blur', function() {
+        if (phoneGroup) phoneGroup.classList.remove('is-focused');
+        if (hasSubmitted) {
+          validatePhone();
+        }
+      });
+    }
+
+    function updatePhoneCounter() {
+      if (!phoneInput || !phoneCounter) return;
+      var len = phoneInput.value.length;
+      if (len === 10) {
+        phoneCounter.textContent = '✓ 10 digits';
+        phoneCounter.classList.add('is-complete');
+      } else {
+        phoneCounter.textContent = len + '/10 digits';
+        phoneCounter.classList.remove('is-complete');
+      }
+    }
+
+    // --- Quick Add Requirement Chips ---
+    var tagChips = form.querySelectorAll('.gp-tag-chip');
+    tagChips.forEach(function(chip) {
+      chip.addEventListener('click', function(e) {
+        e.preventDefault();
+        var tag = this.getAttribute('data-tag');
+        if (!tag || !messageTextarea) return;
+
+        var currentVal = messageTextarea.value.trim();
+        if (currentVal.indexOf(tag) !== -1) {
+          // Already added
+          return;
+        }
+
+        if (currentVal.length === 0) {
+          messageTextarea.value = 'Interested in: ' + tag;
+        } else {
+          messageTextarea.value = currentVal + ', ' + tag;
+        }
+        this.classList.add('active');
+        messageTextarea.focus();
+      });
+    });
+
+    // --- Feedback Helpers ---
+    function setFeedback(feedbackEl, controlEl, isValid, message) {
+      if (!feedbackEl) return;
+      if (isValid) {
+        feedbackEl.classList.remove('active');
+        feedbackEl.innerHTML = '';
+        if (controlEl) {
+          controlEl.classList.remove('is-invalid');
+          controlEl.classList.add('is-valid');
+        }
+      } else {
+        feedbackEl.classList.add('active');
+        feedbackEl.innerHTML = '<i class="fa fa-exclamation-circle"></i> <span>' + message + '</span>';
+        if (controlEl) {
+          controlEl.classList.add('is-invalid');
+          controlEl.classList.remove('is-valid');
+        }
+      }
+    }
+
+    // --- Validation Rules ---
+    function validateName() {
+      if (!nameInput) return true;
+      var val = nameInput.value.trim();
+      if (!val) {
+        setFeedback(feedbackName, nameInput, false, 'Please enter your full name.');
+        return false;
+      }
+      if (val.length < 2) {
+        setFeedback(feedbackName, nameInput, false, 'Name must be at least 2 characters long.');
+        return false;
+      }
+      if (!/^[a-zA-Z\s.']{2,60}$/.test(val)) {
+        setFeedback(feedbackName, nameInput, false, 'Please enter a valid name using letters only.');
+        return false;
+      }
+      setFeedback(feedbackName, nameInput, true);
+      return true;
+    }
+
+    function validateEmail() {
+      if (!emailInput) return true;
+      var val = emailInput.value.trim();
+      if (val.length > 0) {
+        var emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+        if (!emailRegex.test(val)) {
+          setFeedback(feedbackEmail, emailInput, false, 'Please enter a valid email address (e.g. name@example.com).');
+          return false;
+        }
+      }
+      setFeedback(feedbackEmail, emailInput, true);
+      return true;
+    }
+
+    function validateService() {
+      if (!serviceSelect) return true;
+      var val = serviceSelect.value;
+      if (!val || val === '') {
+        setFeedback(feedbackService, serviceSelect, false, 'Please choose an interior service from the dropdown.');
+        return false;
+      }
+      setFeedback(feedbackService, serviceSelect, true);
+      return true;
+    }
+
+    function validatePhone() {
+      if (!phoneInput) return true;
+      var val = phoneInput.value.trim();
+      var targetControl = phoneGroup || phoneInput;
+
+      if (!val) {
+        setFeedback(feedbackPhone, targetControl, false, 'Please enter your 10-digit mobile number.');
+        return false;
+      }
+      if (val.length < 10) {
+        setFeedback(feedbackPhone, targetControl, false, 'Mobile number must be 10 digits (currently ' + val.length + ').');
+        return false;
+      }
+      if (!/^[6-9]/.test(val)) {
+        setFeedback(feedbackPhone, targetControl, false, 'Indian mobile numbers must start with 6, 7, 8, or 9.');
+        return false;
+      }
+      setFeedback(feedbackPhone, targetControl, true);
+      return true;
+    }
+
+    // Live validation after first submit attempt
+    if (nameInput) {
+      nameInput.addEventListener('input', function() {
+        if (hasSubmitted) validateName();
+      });
+      nameInput.addEventListener('blur', function() {
+        if (hasSubmitted) validateName();
+      });
+    }
+
+    if (emailInput) {
+      emailInput.addEventListener('input', function() {
+        if (hasSubmitted) validateEmail();
+      });
+      emailInput.addEventListener('blur', function() {
+        if (hasSubmitted) validateEmail();
+      });
+    }
+
+    if (serviceSelect) {
+      serviceSelect.addEventListener('change', function() {
+        if (hasSubmitted) validateService();
+      });
+    }
+
+    // --- Form Submit & WhatsApp Dispatch ---
+    form.addEventListener('submit', function(e) {
+      e.preventDefault();
+      hasSubmitted = true;
+
+      var isNameValid = validateName();
+      var isEmailValid = validateEmail();
+      var isServiceValid = validateService();
+      var isPhoneValid = validatePhone();
+
+      if (!isNameValid || !isEmailValid || !isServiceValid || !isPhoneValid) {
+        // Shake first invalid field
+        var firstInvalid = null;
+        if (!isNameValid) firstInvalid = nameInput;
+        else if (!isEmailValid) firstInvalid = emailInput;
+        else if (!isServiceValid) firstInvalid = serviceSelect;
+        else if (!isPhoneValid) firstInvalid = phoneInput;
+
+        if (firstInvalid) {
+          var shakeElement = (firstInvalid === phoneInput && phoneGroup) ? phoneGroup : firstInvalid;
+          shakeElement.classList.remove('gp-shake');
+          // Trigger reflow for animation restart
+          void shakeElement.offsetWidth;
+          shakeElement.classList.add('gp-shake');
+          firstInvalid.focus();
+        }
+        return;
+      }
+
+      // All fields valid -> Format WhatsApp message
+      var name = nameInput.value.trim();
+      var email = emailInput ? emailInput.value.trim() : '';
+      var service = serviceSelect.value;
+      var phone = phoneInput.value.trim();
+      var message = messageTextarea ? messageTextarea.value.trim() : '';
+
+      var whatsappNumber = '919566795017';
+      var textLines = [
+        '✨ *New Consultation Enquiry — GP Interior*',
+        '━━━━━━━━━━━━━━━━━━━',
+        '👤 *Client Name:* ' + name,
+        '📱 *Mobile:* +91 ' + phone,
+        '🏷️ *Service:* ' + service
+      ];
+
+      if (email) {
+        textLines.push('📧 *Email:* ' + email);
+      }
+      if (message) {
+        textLines.push('💬 *Project Details:* ' + message);
+      } else {
+        textLines.push('💬 *Project Details:* Requesting showroom consultation & design quotation.');
+      }
+
+      textLines.push('━━━━━━━━━━━━━━━━━━━');
+      textLines.push('📍 *Location:* Puducherry');
+      textLines.push('_Sent via GP Interior Web Portal (gpinterior.in)_');
+
+      var fullMessage = textLines.join('\n');
+      var waUrl = 'https://wa.me/' + whatsappNumber + '?text=' + encodeURIComponent(fullMessage);
+
+      // Button loading indicator
+      if (submitBtn) {
+        var originalContent = submitBtn.innerHTML;
+        submitBtn.disabled = true;
+        submitBtn.innerHTML = '<span class="gp-btn-icon"><i class="fa fa-spinner fa-spin"></i></span><span class="gp-btn-label">Opening WhatsApp...</span>';
+        setTimeout(function() {
+          submitBtn.disabled = false;
+          submitBtn.innerHTML = originalContent;
+        }, 3200);
+      }
+
+      // Show success alert banner with direct fallback link
+      if (successBanner) {
+        successBanner.style.display = 'flex';
+        if (directWaLink) {
+          directWaLink.href = waUrl;
+        }
+      }
+
+      // Open WhatsApp chat in new window
+      window.open(waUrl, '_blank', 'noopener,noreferrer');
+    });
+  }
+
   function init() {
     syncActiveNavState();
     syncStickyHeader();
@@ -314,6 +645,7 @@
     injectFloatingControls();
     initReviewsCarousel();
     initSmartNavbar();
+    initContactFormValidation();
   }
 
   if (document.readyState === 'loading') {

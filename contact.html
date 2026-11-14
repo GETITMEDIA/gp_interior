@@ -429,47 +429,144 @@
 				<div class="text">Whether you’re planning a waterproof UPVC modular kitchen, bespoke wardrobes, or complete home interiors in Puducherry, send us a message on WhatsApp or visit any of our showrooms.</div>
 			</div>
 			
-			<!-- Contact Form -->
-			<div class="contact-form" style="max-width:860px;margin:0 auto;background:#ffffff;padding:38px;border-radius:18px;border:1px solid var(--gp-border);box-shadow:var(--gp-shadow-md);">
-				<form id="contact-form">
+			<!-- Contact Form Card -->
+			<div class="gp-contact-card" data-gp-reveal>
+				<div class="gp-card-accent-bar"></div>
+				
+				<div class="gp-card-header">
+					<div class="gp-form-badge">
+						<i class="fa fa-comments"></i> <span>Direct Showroom Consultation</span>
+					</div>
+					<h3 class="gp-card-heading">Plan Your Dream Interiors With Us</h3>
+					<p class="gp-card-sub">Share your floor plan details or enquiry below. Our senior design team in Puducherry will reply directly on WhatsApp with customized layouts and quotation.</p>
+				</div>
+
+				<form id="contact-form" class="gp-form" novalidate>
 					<div class="row clearfix">
+						<!-- Full Name -->
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
-							<input type="text" name="username" placeholder="Your Full Name" required>
+							<label class="gp-field-label" for="gp-form-name">
+								<span class="gp-label-main"><i class="fa fa-user"></i> Full Name <span class="gp-req">*</span></span>
+							</label>
+							<div class="gp-input-wrapper">
+								<input type="text" id="gp-form-name" name="username" class="gp-input-control" placeholder="e.g. Sivakumar" autocomplete="name" required>
+							</div>
+							<div class="gp-field-feedback" id="feedback-name"></div>
 						</div>
 						
+						<!-- Email Address -->
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
-							<input type="email" name="email" placeholder="Email Address" required>
+							<label class="gp-field-label" for="gp-form-email">
+								<span class="gp-label-main"><i class="fa fa-envelope"></i> Email Address <span class="gp-opt">(Optional)</span></span>
+							</label>
+							<div class="gp-input-wrapper">
+								<input type="email" id="gp-form-email" name="email" class="gp-input-control" placeholder="e.g. siva@gmail.com" autocomplete="email">
+							</div>
+							<div class="gp-field-feedback" id="feedback-email"></div>
 						</div>
 						
+						<!-- Service Dropdown -->
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
-							<select name="service" required style="width:100%;height:54px;">
-								<option value="" disabled selected>Service You Are Interested In</option>
-								<option value="Modular Kitchen (UPVC/PVC)">Modular Kitchen (UPVC / PVC)</option>
-								<option value="Wardrobes & Loft Coverings">Wardrobes &amp; Loft Coverings</option>
-								<option value="TV Unit & Living Showcase">TV Unit &amp; Living Showcase</option>
-								<option value="UPVC Doors & Windows">UPVC Doors &amp; Windows</option>
-								<option value="Bedroom Interior Design">Bedroom Interior Design</option>
-								<option value="PVC False Ceiling">PVC False Ceiling</option>
-								<option value="Pooja Unit / Mandir">Pooja Unit / Mandir</option>
-								<option value="Full Home Interior Package">Full Home Interior Package</option>
-							</select>
+							<label class="gp-field-label" for="gp-form-service">
+								<span class="gp-label-main"><i class="fa fa-th-large"></i> Service Required <span class="gp-req">*</span></span>
+							</label>
+							<div class="gp-select-wrapper">
+								<select id="gp-form-service" name="service" class="gp-input-control gp-select-control" required>
+									<option value="" disabled selected>Choose interior service...</option>
+									<option value="Waterproof UPVC Modular Kitchen">Waterproof UPVC Modular Kitchen</option>
+									<option value="PVC Modular Kitchen">PVC Modular Kitchen (Budget Friendly)</option>
+									<option value="Wardrobes & Loft Coverings">Wardrobes &amp; Loft Coverings</option>
+									<option value="TV Unit & Living Showcase">TV Unit &amp; Living Showcase</option>
+									<option value="UPVC Doors & Windows">UPVC Doors &amp; Windows Fabrication</option>
+									<option value="Bedroom Interior Design">Bedroom Interior &amp; Cupboards</option>
+									<option value="PVC False Ceiling">PVC False Ceiling &amp; Cove Lights</option>
+									<option value="Pooja Unit / Mandir">Bespoke Pooja Unit / Mandir</option>
+									<option value="Full Home Interior Package">Full Turnkey Home Interior Package</option>
+								</select>
+								<span class="gp-select-arrow"><i class="fa fa-angle-down"></i></span>
+							</div>
+							<div class="gp-field-feedback" id="feedback-service"></div>
 						</div>
 						
+						<!-- Mobile Number with +91 Prefix -->
 						<div class="form-group col-lg-6 col-md-6 col-sm-12">
-							<input type="tel" name="phone" placeholder="Phone / WhatsApp Number" required>
+							<label class="gp-field-label" for="gp-form-phone">
+								<span class="gp-label-main"><i class="fa fa-phone"></i> WhatsApp / Mobile Number <span class="gp-req">*</span></span>
+								<span class="gp-phone-counter" id="gp-phone-counter">0/10 digits</span>
+							</label>
+							<div class="gp-phone-group" id="gp-phone-group">
+								<span class="gp-phone-prefix" title="Country Code: India (+91)">
+									<span class="gp-prefix-flag">🇮🇳</span>
+									<span class="gp-prefix-text">+91</span>
+								</span>
+								<input 
+									type="tel" 
+									id="gp-form-phone" 
+									name="phone" 
+									class="gp-input-control gp-phone-input" 
+									placeholder="98765 43210" 
+									inputmode="numeric" 
+									pattern="[0-9]*" 
+									maxlength="10" 
+									autocomplete="tel-national" 
+									required
+								>
+							</div>
+							<div class="gp-field-feedback" id="feedback-phone"></div>
 						</div>
 						
+						<!-- Project Details / Message with Quick Chips -->
 						<div class="form-group col-lg-12 col-md-12 col-sm-12">
-							<textarea name="message" placeholder="Tell us about your home, flat size (e.g., 2BHK/3BHK), or preferred branch..."></textarea>
+							<label class="gp-field-label" for="gp-form-message">
+								<span class="gp-label-main"><i class="fa fa-pencil"></i> Project Details &amp; Notes <span class="gp-opt">(Optional)</span></span>
+							</label>
+							<div class="gp-quick-tags">
+								<span class="gp-tags-label">Quick Add:</span>
+								<button type="button" class="gp-tag-chip" data-tag="2BHK Flat">+ 2BHK</button>
+								<button type="button" class="gp-tag-chip" data-tag="3BHK Flat">+ 3BHK</button>
+								<button type="button" class="gp-tag-chip" data-tag="Modular Kitchen">+ Modular Kitchen</button>
+								<button type="button" class="gp-tag-chip" data-tag="Bedroom Wardrobe">+ Wardrobes</button>
+								<button type="button" class="gp-tag-chip" data-tag="PVC False Ceiling">+ False Ceiling</button>
+								<button type="button" class="gp-tag-chip" data-tag="Pondicherry Site">+ Pondicherry Site</button>
+							</div>
+							<div class="gp-input-wrapper">
+								<textarea id="gp-form-message" name="message" class="gp-input-control gp-textarea-control" rows="3" placeholder="Tell us about your home, flat size (e.g. 2BHK/3BHK in Lawspet), preferred timeline, or any specific requirements..."></textarea>
+							</div>
+							<div class="gp-field-feedback" id="feedback-message"></div>
 						</div>
 						
+						<!-- Submit CTA Button -->
 						<div class="form-group text-center col-lg-12 col-md-12 col-sm-12 mb-0">
-							<button class="theme-btn btn-style-one" type="submit" name="submit-form"><i class="fa fa-whatsapp" style="margin-right:8px;"></i> Send Enquiry via WhatsApp</button>
+							<button type="submit" id="gp-submit-btn" class="gp-btn-whatsapp-cta">
+								<span class="gp-btn-icon"><i class="fa fa-whatsapp"></i></span>
+								<span class="gp-btn-label">Send Enquiry Via WhatsApp</span>
+								<span class="gp-btn-arrow"><i class="fa fa-arrow-right"></i></span>
+							</button>
+							
+							<!-- Micro Guarantees Strip -->
+							<div class="gp-form-guarantees">
+								<span><i class="fa fa-bolt"></i> 15-Minute Response</span>
+								<span class="sep">•</span>
+								<span><i class="fa fa-shield"></i> 100% Privacy Protected</span>
+								<span class="sep">•</span>
+								<span><i class="fa fa-map-marker"></i> 3 Puducherry Showrooms</span>
+							</div>
+							
+							<!-- Success Alert / Direct Fallback Link -->
+							<div id="gp-form-success" class="gp-form-success-banner" style="display:none;">
+								<div class="gp-success-icon"><i class="fa fa-check-circle"></i></div>
+								<div class="gp-success-content">
+									<h4>Enquiry Ready For WhatsApp!</h4>
+									<p>Opening WhatsApp to send your details. If it didn't open automatically, click the button below:</p>
+									<a id="gp-direct-wa-link" href="#" target="_blank" class="gp-direct-wa-btn">
+										<i class="fa fa-whatsapp"></i> Continue to WhatsApp Chat
+									</a>
+								</div>
+							</div>
 						</div>
 					</div>
 				</form>
 			</div>
-			
 		</div>
 	</section>
 	<!-- End Contact Form Section -->
@@ -702,29 +799,7 @@
 <script src="js/script.js"></script>
 <script src="js/gp-premium.js"></script>
 
-<script>
-document.getElementById("contact-form").addEventListener("submit", function(e){
-    e.preventDefault();
-    var name = document.querySelector('input[name="username"]').value.trim();
-    var email = document.querySelector('input[name="email"]').value.trim();
-    var serviceEl = document.querySelector('[name="service"]');
-    var service = serviceEl ? serviceEl.value : '';
-    var phone = document.querySelector('input[name="phone"]').value.trim();
-    var message = document.querySelector('textarea[name="message"]').value.trim();
 
-    var whatsappNumber = "919566795017";
-    var text = encodeURIComponent(
-        "New Contact Enquiry — GP Interior:\n\n" +
-        "Name: " + name + "\n" +
-        "Email: " + email + "\n" +
-        "Service: " + service + "\n" +
-        "Phone: " + phone + "\n" +
-        "Message: " + message
-    );
-
-    window.open("https://wa.me/" + whatsappNumber + "?text=" + text, "_blank", "noopener,noreferrer");
-});
-</script>
 
 </body>
 

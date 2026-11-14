@@ -625,8 +625,8 @@
 	}
 	
 	
-	//Contact Form Validation
-	if($('#contact-form').length){
+	//Contact Form Validation (Legacy fallback, active form handled in gp-premium.js)
+	if($('#legacy-contact-form').length){
 		$('#contact-form').validate({
 			rules: {
 				name: {
