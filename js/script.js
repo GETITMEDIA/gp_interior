@@ -191,27 +191,35 @@
 	if ($('.three-item-carousel').length) {
 		$('.three-item-carousel').owlCarousel({
 			loop:true,
-			margin:0,
+			margin:26,
 			nav:true,
+			dots:true,
 			smartSpeed: 700,
-			autoplay: 4000,
-			autoHeight: true,
-			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
+			autoplay: true,
+			autoplayTimeout: 4200,
+			autoplayHoverPause: true,
+			autoHeight: false,
+			navText: [ '<span class="fa fa-angle-left" aria-label="Previous"></span>', '<span class="fa fa-angle-right" aria-label="Next"></span>' ],
 			responsive:{
 				0:{
-					items:1
+					items:1,
+					margin:14
 				},
 				600:{
-					items:2
+					items:2,
+					margin:20
 				},
 				800:{
-					items:2
+					items:2,
+					margin:22
 				},
 				1024:{
-					items:3
+					items:3,
+					margin:26
 				},
 				1200:{
-					items:3
+					items:3,
+					margin:26
 				}
 			}
 		});    		
@@ -287,23 +295,30 @@
 	if ($('.sponsors-carousel').length) {
 		$('.sponsors-carousel').owlCarousel({
 			loop:true,
-			margin:2,
-			nav:true,
-			smartSpeed: 500,
+			margin:20,
+			nav:false,
+			dots:false,
+			smartSpeed: 650,
 			autoplay: true,
-			navText: [ '<span class="flaticon-back-7"></span>', '<span class="flaticon-right-arrow"></span>' ],
+			autoplayTimeout: 2600,
+			autoplayHoverPause: true,
+			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
 			responsive:{
 				0:{
-					items:1
+					items:2,
+					margin:12
 				},
 				600:{
-					items:2
+					items:3,
+					margin:16
 				},
 				768:{
-					items:3
+					items:4,
+					margin:18
 				},
 				1024:{
-					items:5
+					items:5,
+					margin:20
 				}
 			}
 		});
@@ -450,17 +465,34 @@
 	if($('.tabs-box').length){
 		$('.tabs-box .tab-buttons .tab-btn').on('click', function(e) {
 			e.preventDefault();
-			var target = $($(this).attr('data-tab'));
+			var $btn = $(this);
+			var target = $($btn.attr('data-tab'));
 			
 			if ($(target).is(':visible')){
 				return false;
 			}else{
 				target.parents('.tabs-box').find('.tab-buttons').find('.tab-btn').removeClass('active-btn');
-				$(this).addClass('active-btn');
-				target.parents('.tabs-box').find('.tabs-content').find('.tab').fadeOut(0);
-				target.parents('.tabs-box').find('.tabs-content').find('.tab').removeClass('active-tab');
-				$(target).fadeIn(300);
-				$(target).addClass('active-tab');
+				$btn.addClass('active-btn');
+				target.parents('.tabs-box').find('.tabs-content').find('.tab').fadeOut(0).removeClass('active-tab');
+				$(target).fadeIn(350).addClass('active-tab');
+
+				// Sync right-hand Atelier showcase visual & caption when attributes exist
+				var imgSrc = $btn.attr('data-showcase-img');
+				var captionTitle = $btn.attr('data-showcase-caption');
+				var captionTag = $btn.attr('data-showcase-tag');
+				var $atelierCard = $btn.closest('.product-tab-section').find('.gp-atelier-visual-card');
+				if (imgSrc && $atelierCard.length) {
+					var $img = $atelierCard.find('img');
+					$img.stop(true, true).fadeTo(180, 0.35, function() {
+						$img.attr('src', imgSrc).fadeTo(260, 1);
+					});
+					if (captionTitle) {
+						$atelierCard.find('.gp-atelier-caption span').text(captionTitle);
+					}
+					if (captionTag) {
+						$atelierCard.find('.gp-atelier-caption strong').text(captionTag);
+					}
+				}
 			}
 		});
 	}

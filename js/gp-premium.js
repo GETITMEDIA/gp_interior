@@ -13,26 +13,29 @@
 
   function initScrollReveals() {
     var revealSelectors = [
+      '.sec-title',
+      '.gp-about-intro',
       '.services-block',
-      '.services-block-two',
       '.story-block',
       '.story-block-two',
+      '.gp-atelier-visual-card',
       '.gp-project-card',
+      '.branded-section .image-column',
+      '.gp-branded-feature-card',
       '.team-block',
       '.news-block',
       '.gp-trust-item',
-      '.gp-review-card',
-      '.sponsors-section .image-box',
-      '.sponsors-section-two .image-box'
+      '.gp-cta-box'
     ];
 
-    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',')));
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',')))
+      .filter(function (el) { return !el.closest('.owl-carousel'); });
     if (!nodes.length) return;
 
     nodes.forEach(function (el, idx) {
       if (!el.hasAttribute('data-gp-reveal')) {
         el.setAttribute('data-gp-reveal', '');
-        el.style.transitionDelay = Math.min((idx % 4) * 55, 165) + 'ms';
+        el.style.transitionDelay = Math.min((idx % 4) * 65, 195) + 'ms';
       }
     });
 
