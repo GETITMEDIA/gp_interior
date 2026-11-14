@@ -544,11 +544,286 @@ p, .text, .sec-title .text, li {
 }
 
 /* ==========================================================================
-   ABOUT & SERVICE PILLAR CARDS
+   ABOUT SECTION & ARCHITECTURAL INTRO
    ========================================================================== */
 .about-section {
   background-color: var(--gp-ivory) !important;
-  padding: 96px 0 80px !important;
+  padding: 88px 0 84px !important;
+  position: relative;
+}
+
+.gp-about-intro {
+  margin-bottom: 54px;
+}
+
+.gp-about-narrative-wrap {
+  padding-right: 24px;
+}
+
+.gp-about-eyebrow {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--gp-font-heading);
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  color: var(--gp-gold-deep);
+  text-transform: uppercase;
+  background: rgba(212, 168, 83, 0.08);
+  border: 1px solid rgba(212, 168, 83, 0.26);
+  border-radius: 999px;
+  padding: 5px 14px;
+  margin-bottom: 18px;
+}
+
+.gp-about-eyebrow-dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: var(--gp-gold);
+  box-shadow: 0 0 8px var(--gp-gold);
+  animation: gp-about-pulse 2s infinite ease-in-out;
+}
+
+@keyframes gp-about-pulse {
+  0%, 100% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.45;
+    transform: scale(0.85);
+  }
+}
+
+.gp-about-main-title {
+  font-family: var(--gp-font-heading) !important;
+  font-size: 2.65rem !important;
+  font-weight: 800 !important;
+  line-height: 1.18 !important;
+  color: var(--gp-ink) !important;
+  letter-spacing: -0.02em !important;
+  margin-bottom: 20px !important;
+}
+
+.gp-about-main-title .gp-serif-italic {
+  font-family: var(--gp-font-serif) !important;
+  font-style: italic !important;
+  font-weight: 600 !important;
+  font-size: 1.08em;
+  color: var(--gp-ink);
+}
+
+.gp-about-main-title .gp-title-gold-accent {
+  background: linear-gradient(135deg, #b38534 0%, #d4a853 50%, #8a6520 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  display: inline-block;
+}
+
+.gp-about-lead {
+  font-size: 1.05rem !important;
+  line-height: 1.72 !important;
+  color: #2a2926 !important;
+  font-weight: 500 !important;
+  margin-bottom: 14px !important;
+}
+
+.gp-about-subtext {
+  font-size: 0.94rem !important;
+  line-height: 1.75 !important;
+  color: var(--gp-ink-muted) !important;
+  margin-bottom: 26px !important;
+}
+
+.gp-about-highlights-row {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: #ffffff;
+  border: 1px solid rgba(22, 22, 21, 0.08);
+  border-radius: var(--gp-radius-md);
+  padding: 16px 24px;
+  box-shadow: var(--gp-shadow-sm);
+  margin-top: auto;
+}
+
+.gp-about-highlight-item {
+  display: flex;
+  flex-direction: column;
+}
+
+.gp-highlight-num {
+  font-family: var(--gp-font-heading);
+  font-size: 1.75rem;
+  font-weight: 800;
+  color: var(--gp-ink);
+  line-height: 1.1;
+}
+
+.gp-highlight-num span {
+  color: var(--gp-gold-deep);
+  font-weight: 700;
+}
+
+.gp-highlight-lbl {
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.06em;
+  color: var(--gp-ink-muted);
+  margin-top: 3px;
+}
+
+.gp-about-highlight-sep {
+  width: 1px;
+  height: 36px;
+  background: rgba(22, 22, 21, 0.1);
+}
+
+/* Studio Motto Callout Card */
+.gp-about-motto-card {
+  background: linear-gradient(145deg, #181716 0%, #0e0e0d 100%);
+  border: 1px solid rgba(212, 168, 83, 0.32);
+  border-radius: var(--gp-radius-md);
+  padding: 34px 30px;
+  color: #ffffff;
+  position: relative;
+  overflow: hidden;
+  box-shadow: 0 16px 40px rgba(17, 17, 16, 0.16);
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  height: 100%;
+}
+
+.gp-about-motto-card::before {
+  content: "";
+  position: absolute;
+  top: -60px;
+  right: -60px;
+  width: 220px;
+  height: 220px;
+  background: radial-gradient(circle, rgba(212, 168, 83, 0.18), transparent 70%);
+  pointer-events: none;
+  border-radius: 50%;
+}
+
+.gp-motto-badge {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  font-family: var(--gp-font-heading);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--gp-gold);
+  margin-bottom: 12px;
+}
+
+.gp-motto-quote-glyph {
+  font-family: var(--gp-font-serif);
+  font-size: 52px;
+  line-height: 0.55;
+  color: rgba(212, 168, 83, 0.45);
+  user-select: none;
+}
+
+.gp-motto-quote {
+  font-family: var(--gp-font-serif);
+  font-style: italic;
+  font-size: 1.7rem;
+  font-weight: 600;
+  color: #fbfaf8;
+  margin: 0 0 12px 0;
+  padding: 0;
+  line-height: 1.25;
+  letter-spacing: 0.01em;
+}
+
+.gp-motto-desc {
+  font-size: 13.5px;
+  line-height: 1.65;
+  color: rgba(255, 255, 255, 0.72);
+  margin-bottom: 18px;
+}
+
+.gp-motto-features {
+  display: flex;
+  flex-direction: column;
+  gap: 9px;
+  padding-top: 14px;
+  border-top: 1px solid rgba(255, 255, 255, 0.08);
+  margin-bottom: 22px;
+}
+
+.gp-motto-feature-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 9px;
+  font-size: 12.5px;
+  color: rgba(255, 255, 255, 0.85);
+  line-height: 1.45;
+}
+
+.gp-motto-feature-item strong {
+  color: #ffffff;
+  font-weight: 600;
+}
+
+.gp-feature-icon {
+  color: var(--gp-gold);
+  font-size: 13px;
+  margin-top: 2px;
+  flex-shrink: 0;
+}
+
+.gp-motto-cta {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  font-family: var(--gp-font-heading);
+  font-size: 12px;
+  font-weight: 700;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  color: var(--gp-obsidian) !important;
+  background: linear-gradient(135deg, #e9c37a 0%, #d4a853 100%);
+  padding: 10px 22px;
+  border-radius: 999px;
+  transition: transform 0.25s var(--gp-ease), box-shadow 0.25s var(--gp-ease);
+  text-decoration: none !important;
+  width: fit-content;
+}
+
+.gp-motto-cta:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 8px 20px rgba(212, 168, 83, 0.35);
+  color: var(--gp-obsidian) !important;
+}
+
+/* Service Pillar Cards & Badge Pill */
+.gp-card-badge-pill {
+  position: absolute;
+  top: 14px;
+  left: 14px;
+  background: rgba(17, 17, 16, 0.84);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  color: var(--gp-gold);
+  border: 1px solid rgba(212, 168, 83, 0.35);
+  font-family: var(--gp-font-heading);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: 0.12em;
+  text-transform: uppercase;
+  padding: 4px 12px;
+  border-radius: 999px;
+  z-index: 2;
+  pointer-events: none;
 }
 
 .services-block .inner-box {
@@ -636,6 +911,39 @@ p, .text, .sec-title .text, li {
   display: inline-flex;
   align-items: center;
   gap: 8px;
+}
+
+@media (max-width: 991px) {
+  .gp-about-narrative-wrap {
+    padding-right: 0;
+    margin-bottom: 24px;
+  }
+  .gp-about-main-title {
+    font-size: 2.2rem !important;
+  }
+  .gp-about-motto-card {
+    padding: 28px 22px;
+  }
+}
+
+@media (max-width: 767px) {
+  .gp-about-main-title {
+    font-size: 1.85rem !important;
+  }
+  .gp-about-highlights-row {
+    flex-wrap: wrap;
+    gap: 14px;
+    padding: 16px;
+  }
+  .gp-about-highlight-sep {
+    display: none;
+  }
+  .gp-about-motto-card {
+    padding: 24px 18px;
+  }
+  .gp-motto-quote {
+    font-size: 1.45rem;
+  }
 }
 
 .gp-card-link i {
