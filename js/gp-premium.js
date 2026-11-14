@@ -1,0 +1,321 @@
+/**
+ * GP Interior — 2026 Premium Interactions & Enhancement Layer
+ * - IntersectionObserver reveal animations (prefers-reduced-motion aware)
+ * - Auto-upgraded Fancybox lightbox triggers on gallery/portfolio images
+ * - Smooth animated metric counters
+ * - Clean floating WhatsApp & Back-to-Top widget
+ * - Non-blocking image lazy-loading for below-the-fold cards
+ */
+(function () {
+  'use strict';
+
+  var prefersReduced = window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+
+  function initScrollReveals() {
+    var revealSelectors = [
+      '.services-block',
+      '.services-block-two',
+      '.story-block',
+      '.story-block-two',
+      '.gp-project-card',
+      '.team-block',
+      '.news-block',
+      '.gp-trust-item',
+      '.gp-review-card',
+      '.sponsors-section .image-box',
+      '.sponsors-section-two .image-box'
+    ];
+
+    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',')));
+    if (!nodes.length) return;
+
+    nodes.forEach(function (el, idx) {
+      if (!el.hasAttribute('data-gp-reveal')) {
+        el.setAttribute('data-gp-reveal', '');
+        el.style.transitionDelay = Math.min((idx % 4) * 55, 165) + 'ms';
+      }
+    });
+
+    if (prefersReduced || !('IntersectionObserver' in window)) {
+      nodes.forEach(function (el) { el.classList.add('is-revealed'); });
+      return;
+    }
+
+    function revealVisibleNodes() {
+      var vh = window.innerHeight || document.documentElement.clientHeight;
+      nodes.forEach(function (el) {
+        if (el.classList.contains('is-revealed')) return;
+        var rect = el.getBoundingClientRect();
+        if (rect.top <= vh + 80) {
+          el.classList.add('is-revealed');
+        }
+      });
+    }
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('is-revealed');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.01, rootMargin: '80px 0px 80px 0px' });
+
+    nodes.forEach(function (el) { observer.observe(el); });
+    window.addEventListener('scroll', revealVisibleNodes, { passive: true });
+    revealVisibleNodes();
+  }
+
+  function initCounters() {
+    var counters = document.querySelectorAll('[data-gp-count]');
+    if (!counters.length || !('IntersectionObserver' in window)) return;
+
+    var observer = new IntersectionObserver(function (entries) {
+      entries.forEach(function (entry) {
+        if (!entry.isIntersecting) return;
+        var el = entry.target;
+        var target = parseInt(el.getAttribute('data-gp-count'), 10);
+        var suffix = el.getAttribute('data-gp-suffix') || '';
+        if (isNaN(target) || prefersReduced) {
+          el.textContent = target + suffix;
+          observer.unobserve(el);
+          return;
+        }
+        var duration = 550;
+        var start = performance.now();
+        function step(now) {
+          var progress = Math.min((now - start) / duration, 1);
+          var eased = 1 - Math.pow(1 - progress, 3);
+          el.textContent = Math.round(target * eased) + suffix;
+          if (progress < 1) {
+            requestAnimationFrame(step);
+          } else {
+            el.textContent = target + suffix;
+          }
+        }
+        requestAnimationFrame(step);
+        observer.unobserve(el);
+      });
+    }, { threshold: 0.25 });
+
+    counters.forEach(function (el) { observer.observe(el); });
+  }
+
+  function enhanceGalleryLightboxes() {
+    // Wrap unlinked gallery/portfolio images inside Fancybox zoom links
+    var cardImages = document.querySelectorAll('.blog-page-section .news-block .image img, .about-section .services-block .image img, .update-post-img img');
+    cardImages.forEach(function (img) {
+      img.setAttribute('loading', 'lazy');
+      var parent = img.parentElement;
+      if (!parent || parent.tagName === 'A') return;
+      // Only add automatic lightbox inside dedicated portfolio/gallery/update pages
+      if (!img.closest('.blog-page-section') && !img.closest('.update-post-img') && !img.closest('[data-gp-gallery-grid]')) {
+        return;
+      }
+      var src = img.getAttribute('src');
+      if (!src) return;
+      var link = document.createElement('a');
+      link.href = src;
+      link.className = 'gp-lightbox-trigger lightbox-image';
+      link.setAttribute('data-fancybox', 'gp-portfolio');
+      link.setAttribute('aria-label', img.getAttribute('alt') || 'View full project photograph');
+      parent.insertBefore(link, img);
+      link.appendChild(img);
+
+      var badge = document.createElement('span');
+      badge.className = 'gp-lightbox-badge';
+      badge.innerHTML = '<i class="fa fa-expand" aria-hidden="true"></i>';
+      link.appendChild(badge);
+    });
+  }
+
+  function injectFloatingControls() {
+    if (document.querySelector('.gp-floating-actions')) return;
+
+    var wrap = document.createElement('div');
+    wrap.className = 'gp-floating-actions';
+
+    var topBtn = document.createElement('button');
+    topBtn.type = 'button';
+    topBtn.className = 'gp-float-top';
+    topBtn.setAttribute('aria-label', 'Scroll back to top');
+    topBtn.innerHTML = '<i class="fa fa-angle-up" aria-hidden="true"></i>';
+    topBtn.addEventListener('click', function () {
+      window.scrollTo({ top: 0, behavior: prefersReduced ? 'auto' : 'smooth' });
+    });
+
+    var waLink = document.createElement('a');
+    waLink.href = 'https://wa.me/919566795017?text=' + encodeURIComponent('Hello GP Interior, I would like to request a quote for UPVC/PVC interior work.');
+    waLink.target = '_blank';
+    waLink.rel = 'noopener noreferrer';
+    waLink.className = 'gp-float-wa';
+    waLink.setAttribute('aria-label', 'Chat with GP Interior on WhatsApp');
+    waLink.innerHTML = '<i class="fa fa-whatsapp" aria-hidden="true"></i>';
+
+    wrap.appendChild(topBtn);
+    wrap.appendChild(waLink);
+    document.body.appendChild(wrap);
+
+    function toggleTopButton() {
+      if (window.scrollY > 420) {
+        topBtn.classList.add('is-visible');
+      } else {
+        topBtn.classList.remove('is-visible');
+      }
+    }
+
+    window.addEventListener('scroll', toggleTopButton, { passive: true });
+    toggleTopButton();
+  }
+
+  function syncActiveNavState() {
+    var page = (window.location.pathname.split('/').pop() || 'index.html').toLowerCase();
+    var servicePages = ['services.html', 'bedser.html', 'falseser.html', 'modularser.html', 'poojaser.html', 'tvser.html', 'warser.html'];
+    var projectPages = ['boxport.html', 'dressport.html', 'kitchenport.html', 'laftport.html', 'poojaport.html', 'roomport.html', 'tvport.html'];
+    var targetMatch = page;
+    if (servicePages.indexOf(page) !== -1) targetMatch = 'services.html';
+    else if (projectPages.indexOf(page) !== -1) targetMatch = 'boxport.html';
+
+    document.querySelectorAll('.main-header .navigation > li').forEach(function (li) {
+      li.classList.remove('current');
+      var link = li.querySelector('a');
+      if (!link) return;
+      var href = (link.getAttribute('href') || '').toLowerCase();
+      if (href === targetMatch || href === page) {
+        li.classList.add('current');
+      }
+    });
+  }
+
+  function syncStickyHeader() {
+    var stickyRight = document.querySelector('.sticky-header .right-col');
+    var topSocial = document.querySelector('.header-upper .social-outer-box');
+    if (stickyRight && topSocial && !stickyRight.querySelector('.social-outer-box')) {
+      stickyRight.appendChild(topSocial.cloneNode(true));
+    }
+  }
+
+  function initReviewsCarousel() {
+    if (window.jQuery && window.jQuery.fn.owlCarousel) {
+      var $carousel = window.jQuery('.gp-reviews-carousel');
+      if ($carousel.length) {
+        $carousel.owlCarousel({
+          loop: true,
+          margin: 28,
+          nav: true,
+          dots: true,
+          autoplay: true,
+          autoplayTimeout: 4000,
+          autoplayHoverPause: true,
+          smartSpeed: 700,
+          navText: [
+            '<span class="fa fa-angle-left" aria-label="Previous"></span>',
+            '<span class="fa fa-angle-right" aria-label="Next"></span>'
+          ],
+          responsive: {
+            0: {
+              items: 1,
+              margin: 16
+            },
+            768: {
+              items: 1,
+              margin: 20
+            },
+            992: {
+              items: 2,
+              margin: 28
+            }
+          }
+        });
+      }
+    }
+  }
+
+  function initSmartNavbar() {
+    var stickyHeader = document.querySelector('.sticky-header');
+    var mainHeader = document.querySelector('.main-header');
+    if (!stickyHeader && !mainHeader) return;
+
+    var lastScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var ticking = false;
+    var scrollThreshold = 80;
+    var scrollDelta = 6;
+
+    function updateNavbar() {
+      var currentScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+
+      // Don't auto-hide when mobile drawer is open
+      if (document.body.classList.contains('mobile-menu-visible')) {
+        lastScrollY = currentScrollY;
+        ticking = false;
+        return;
+      }
+
+      var diff = currentScrollY - lastScrollY;
+
+      // 1. At or near top of page (scrollY <= 90px — top header is visible)
+      if (currentScrollY <= 90) {
+        if (stickyHeader) {
+          stickyHeader.classList.remove('gp-nav-visible');
+          stickyHeader.classList.add('gp-nav-hidden');
+        }
+        if (mainHeader) {
+          mainHeader.classList.remove('gp-mobile-nav-hidden');
+          mainHeader.classList.remove('gp-mobile-scrolled');
+        }
+      }
+      // 2. Scrolling DOWN -> Hide navbar
+      else if (diff > scrollDelta && currentScrollY > scrollThreshold) {
+        if (stickyHeader) {
+          stickyHeader.classList.remove('gp-nav-visible');
+          stickyHeader.classList.add('gp-nav-hidden');
+        }
+        if (mainHeader) {
+          mainHeader.classList.add('gp-mobile-nav-hidden');
+          mainHeader.classList.add('gp-mobile-scrolled');
+        }
+      }
+      // 3. Scrolling UP -> Reveal navbar
+      else if (diff < -scrollDelta) {
+        if (stickyHeader) {
+          stickyHeader.classList.remove('gp-nav-hidden');
+          stickyHeader.classList.add('gp-nav-visible');
+        }
+        if (mainHeader) {
+          mainHeader.classList.remove('gp-mobile-nav-hidden');
+          mainHeader.classList.add('gp-mobile-scrolled');
+        }
+      }
+
+      lastScrollY = currentScrollY;
+      ticking = false;
+    }
+
+    function onScroll() {
+      if (!ticking) {
+        window.requestAnimationFrame(updateNavbar);
+        ticking = true;
+      }
+    }
+
+    window.addEventListener('scroll', onScroll, { passive: true });
+    updateNavbar();
+  }
+
+  function init() {
+    syncActiveNavState();
+    syncStickyHeader();
+    initScrollReveals();
+    initCounters();
+    enhanceGalleryLightboxes();
+    injectFloatingControls();
+    initReviewsCarousel();
+    initSmartNavbar();
+  }
+
+  if (document.readyState === 'loading') {
+    document.addEventListener('DOMContentLoaded', init);
+  } else {
+    init();
+  }
+})();
