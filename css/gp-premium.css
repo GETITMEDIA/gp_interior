@@ -2707,38 +2707,137 @@ p, .text, .sec-title .text, li {
 /* ==========================================================================
    SUBPAGES: PAGE TITLE, PORTFOLIO GALLERIES, SERVICES FAQ, CONTACT
    ========================================================================== */
+/* ==========================================================================
+   SUBPAGES: LUXURY HERO PAGE TITLE & BREADCRUMBS
+   Flush Container Alignment, Architectural Backdrop, Modern Editorial Hierarchy
+   ========================================================================== */
 .page-title {
   position: relative;
-  padding: 165px 0 92px !important;
+  padding: 175px 0 86px !important;
   background-size: cover !important;
   background-position: center !important;
+  min-height: 380px;
+  display: flex;
+  align-items: center;
+  overflow: hidden;
 }
 
 .page-title::before {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(180deg, rgba(14, 14, 13, 0.76) 0%, rgba(14, 14, 13, 0.62) 55%, rgba(14, 14, 13, 0.88) 100%) !important;
+  background: linear-gradient(90deg, rgba(14, 14, 13, 0.90) 0%, rgba(14, 14, 13, 0.70) 55%, rgba(14, 14, 13, 0.45) 100%),
+              linear-gradient(180deg, rgba(14, 14, 13, 0.65) 0%, transparent 40%, rgba(14, 14, 13, 0.95) 100%) !important;
+  z-index: 1;
+}
+
+.page-title .container,
+.page-title .auto-container {
+  position: relative;
+  z-index: 2;
+  width: 100%;
 }
 
 .page-title .content {
   position: relative;
   z-index: 2;
+  padding-left: 0 !important; /* Fix legacy 195px misalignment */
+  max-width: 860px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
 }
 
-.page-title h2 {
-  font-size: clamp(2.1rem, 4.2vw, 3.4rem) !important;
-  font-weight: 700 !important;
-  color: #ffffff !important;
-  margin-bottom: 10px !important;
-}
-
+/* Eyebrow Subtitle - Placed gracefully above heading */
 .page-title .text {
   color: var(--gp-gold-soft) !important;
+  font-size: 13px !important;
+  font-weight: 700 !important;
+  letter-spacing: 0.22em !important;
+  text-transform: uppercase !important;
+  margin: 0 0 10px 0 !important;
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+  order: 1;
+}
+
+.page-title .text::before {
+  content: '✦';
+  font-size: 11px;
+  color: var(--gp-gold);
+}
+
+/* Main Heading */
+.page-title h2 {
+  font-family: var(--gp-font-heading) !important;
+  font-size: clamp(2.3rem, 4.6vw, 3.8rem) !important;
+  font-weight: 800 !important;
+  color: #ffffff !important;
+  line-height: 1.14 !important;
+  margin: 0 0 16px 0 !important;
+  letter-spacing: -0.025em !important;
+  order: 2;
+  text-shadow: 0 4px 18px rgba(0, 0, 0, 0.4);
+}
+
+/* Modern Glassmorphic Breadcrumb Badge */
+.page-title .page-breadcrumb {
+  order: 3;
+  margin: 0 !important;
+  padding: 7px 16px !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  flex-wrap: wrap;
+  gap: 8px !important;
+  background: rgba(22, 22, 21, 0.68) !important;
+  border: 1px solid rgba(255, 255, 255, 0.16) !important;
+  border-radius: 999px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.28);
+}
+
+.page-title .page-breadcrumb li {
+  font-family: var(--gp-font-body) !important;
+  font-size: 13px !important;
+  font-weight: 500 !important;
+  color: rgba(255, 255, 255, 0.72) !important;
+  margin: 0 !important;
+  padding: 0 !important;
+  display: inline-flex !important;
+  align-items: center !important;
+  text-transform: capitalize !important;
+  line-height: 1 !important;
+}
+
+.page-title .page-breadcrumb li:after {
+  content: '›' !important;
+  position: static !important;
+  margin-left: 8px !important;
   font-size: 14px !important;
-  font-weight: 600;
-  letter-spacing: 0.2em;
-  text-transform: uppercase;
+  color: var(--gp-gold-soft) !important;
+  opacity: 0.85;
+}
+
+.page-title .page-breadcrumb li:last-child {
+  color: #ffffff !important;
+  font-weight: 600 !important;
+}
+
+.page-title .page-breadcrumb li:last-child:after {
+  display: none !important;
+}
+
+.page-title .page-breadcrumb li a {
+  color: var(--gp-gold-soft) !important;
+  text-decoration: none !important;
+  transition: color 0.2s ease;
+}
+
+.page-title .page-breadcrumb li a:hover {
+  color: #ffffff !important;
+  text-decoration: underline !important;
 }
 
 /* Portfolio & Gallery Uniform Cards */
