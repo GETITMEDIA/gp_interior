@@ -3453,7 +3453,7 @@ p, .text, .sec-title .text, li {
 
 @media (max-width: 768px) {
   .gp-contact-card {
-    padding: 30px 20px;
+    padding: 28px 18px;
     border-radius: 18px;
   }
   .gp-card-heading {
@@ -3461,12 +3461,34 @@ p, .text, .sec-title .text, li {
   }
   .gp-btn-whatsapp-cta {
     width: 100%;
-    padding: 15px 22px;
-    font-size: 13.5px;
+    max-width: 100%;
+    box-sizing: border-box;
+    padding: 12px 16px;
+    gap: 8px;
+    font-size: 12px;
+    letter-spacing: 0.03em;
+    white-space: nowrap;
+  }
+  .gp-btn-whatsapp-cta .gp-btn-icon {
+    width: 28px;
+    height: 28px;
+    font-size: 15px;
+    flex-shrink: 0;
+  }
+  .gp-btn-whatsapp-cta .gp-btn-arrow {
+    font-size: 12px;
+    flex-shrink: 0;
   }
   .gp-phone-prefix {
-    padding: 0 12px;
-    font-size: 13.5px;
+    padding: 0 10px;
+    gap: 5px;
+    font-size: 13px;
+    flex-shrink: 0;
+  }
+  .gp-phone-input {
+    min-width: 0;
+    padding-left: 10px !important;
+    padding-right: 10px !important;
   }
   .gp-form-guarantees {
     gap: 8px;
@@ -3479,6 +3501,20 @@ p, .text, .sec-title .text, li {
     display: inline-block;
     width: 100%;
     text-align: center;
+  }
+}
+
+@media (max-width: 359px) {
+  .gp-btn-whatsapp-cta {
+    padding: 11px 12px;
+    gap: 6px;
+    font-size: 11px;
+    letter-spacing: 0.02em;
+  }
+  .gp-btn-whatsapp-cta .gp-btn-icon {
+    width: 24px;
+    height: 24px;
+    font-size: 13px;
   }
 }
 
