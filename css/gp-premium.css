@@ -69,9 +69,21 @@ p, .text, .sec-title .text, li {
   letter-spacing: 0.01em;
 }
 
-/* Kill random inline distortion defaults safely */
+/* Kill random inline distortion defaults safely & guarantee zero horizontal viewport overflow */
 .page-wrapper {
   background-color: var(--gp-ivory);
+  overflow-x: hidden !important;
+  max-width: 100vw;
+}
+
+.project-section-two,
+.project-section-two .outer-container,
+.four-item-carousel,
+.three-item-carousel,
+.story-carousel,
+.sponsors-carousel,
+.owl-carousel {
+  overflow: hidden !important;
 }
 
 /* Guarantee every content section after the fixed desktop hero sits above it cleanly */
