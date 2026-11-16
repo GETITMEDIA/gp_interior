@@ -82,6 +82,102 @@ p, .text, .sec-title .text, li {
 }
 
 /* ==========================================================================
+   BOOTSTRAP 5 CONTAINER SYSTEM (Full Breakpoint Compliance)
+   Official Bootstrap 5 container specifications:
+     < 576px:  width: 100% (gutter-x: 1.5rem / 24px)
+     >= 576px:  max-width: 540px
+     >= 768px:  max-width: 720px
+     >= 992px:  max-width: 960px
+     >= 1200px: max-width: 1140px
+     >= 1400px: max-width: 1320px
+   Unified across .container, .container-sm, .container-md, .container-lg,
+   .container-xl, .container-xxl, and .auto-container.
+   ========================================================================== */
+:root {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+}
+
+.container,
+.container-fluid,
+.container-xxl,
+.container-xl,
+.container-lg,
+.container-md,
+.container-sm,
+.auto-container {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+  width: 100% !important;
+  max-width: 100% !important;
+  padding-right: calc(var(--bs-gutter-x) * 0.5) !important;
+  padding-left: calc(var(--bs-gutter-x) * 0.5) !important;
+  margin-right: auto !important;
+  margin-left: auto !important;
+  box-sizing: border-box !important;
+}
+
+@media (min-width: 576px) {
+  .container-sm,
+  .container,
+  .auto-container {
+    max-width: 540px !important;
+  }
+}
+
+@media (min-width: 768px) {
+  .container-md,
+  .container-sm,
+  .container,
+  .auto-container {
+    max-width: 720px !important;
+  }
+}
+
+@media (min-width: 992px) {
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container,
+  .auto-container {
+    max-width: 960px !important;
+  }
+}
+
+@media (min-width: 1200px) {
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container,
+  .auto-container {
+    max-width: 1140px !important;
+  }
+}
+
+@media (min-width: 1400px) {
+  .container-xxl,
+  .container-xl,
+  .container-lg,
+  .container-md,
+  .container-sm,
+  .container,
+  .auto-container {
+    max-width: 1320px !important;
+  }
+}
+
+.container-fluid {
+  max-width: 100% !important;
+}
+
+/* Row gutter consistency to prevent negative margin overflow */
+.row {
+  --bs-gutter-x: 1.5rem;
+  --bs-gutter-y: 0;
+}
+
+/* ==========================================================================
    HEADER & NAVIGATION (Architectural Glassmorphism — Before & After Scroll)
    ========================================================================== */
 .main-header {
@@ -196,14 +292,17 @@ p, .text, .sec-title .text, li {
   pointer-events: none !important;
 }
 
-.sticky-header .auto-container {
+.sticky-header .auto-container,
+.sticky-header .container {
   max-width: 1400px !important;
   width: 100% !important;
   padding: 0 32px !important;
 }
 
 .sticky-header .auto-container.clearfix,
-.sticky-header .auto-container > .clearfix {
+.sticky-header .container.clearfix,
+.sticky-header .auto-container > .clearfix,
+.sticky-header .container > .clearfix {
   display: flex !important;
   align-items: center !important;
   justify-content: space-between !important;
@@ -213,8 +312,12 @@ p, .text, .sec-title .text, li {
 
 .sticky-header .auto-container.clearfix::before,
 .sticky-header .auto-container.clearfix::after,
+.sticky-header .container.clearfix::before,
+.sticky-header .container.clearfix::after,
 .sticky-header .auto-container > .clearfix::before,
-.sticky-header .auto-container > .clearfix::after {
+.sticky-header .auto-container > .clearfix::after,
+.sticky-header .container > .clearfix::before,
+.sticky-header .container > .clearfix::after {
   display: none !important;
   content: none !important;
 }
@@ -3299,7 +3402,8 @@ p, .text, .sec-title .text, li {
   position: relative;
 }
 
-.contact-info-section.gp-contact-info-hub .auto-container {
+.contact-info-section.gp-contact-info-hub .auto-container,
+.contact-info-section.gp-contact-info-hub .container {
   max-width: 1200px !important;
 }
 
@@ -3691,7 +3795,8 @@ p, .text, .sec-title .text, li {
   pointer-events: none;
 }
 
-.main-footer .auto-container {
+.main-footer .auto-container,
+.main-footer .container {
   position: relative;
   z-index: 2;
 }
