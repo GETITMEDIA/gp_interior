@@ -106,12 +106,12 @@ p, .text, .sec-title .text, li {
 .container-md,
 .container-sm,
 .auto-container {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
   width: 100% !important;
   max-width: 100% !important;
-  padding-right: calc(var(--bs-gutter-x) * 0.5) !important;
-  padding-left: calc(var(--bs-gutter-x) * 0.5) !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
   margin-right: auto !important;
   margin-left: auto !important;
   box-sizing: border-box !important;
@@ -173,8 +173,15 @@ p, .text, .sec-title .text, li {
 
 /* Row gutter consistency to prevent negative margin overflow */
 .row {
-  --bs-gutter-x: 1.5rem;
+  --bs-gutter-x: 30px;
   --bs-gutter-y: 0;
+  margin-right: -15px !important;
+  margin-left: -15px !important;
+}
+.row > * {
+  box-sizing: border-box !important;
+  padding-right: 15px !important;
+  padding-left: 15px !important;
 }
 
 /* ==========================================================================
@@ -4296,16 +4303,16 @@ p, .text, .sec-title .text, li {
     display: none !important;
   }
   .gp-trust-grid {
-    grid-template-columns: repeat(2, 1fr);
-    gap: 18px;
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
   }
   .gp-trust-item {
-    border-left: none;
-    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
-    padding: 8px 0 14px;
-  }
-  .gp-trust-item:nth-last-child(-n+2) {
-    border-bottom: none;
+    padding: 16px 14px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.04) !important;
+    border: 1px solid rgba(212, 168, 83, 0.22) !important;
+    box-sizing: border-box !important;
+    box-shadow: 0 4px 14px rgba(0, 0, 0, 0.25) !important;
   }
   .gp-project-card,
   .gp-project-card.gp-project-wide {
@@ -4429,14 +4436,55 @@ p, .text, .sec-title .text, li {
   .gp-trust-band {
     padding: 24px 0 !important;
   }
+  .gp-trust-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 12px !important;
+  }
+  .gp-trust-item {
+    padding: 16px 14px !important;
+    border-radius: 12px !important;
+    background: rgba(255, 255, 255, 0.035) !important;
+    border: 1px solid rgba(212, 168, 83, 0.22) !important;
+    box-sizing: border-box !important;
+    display: flex !important;
+    flex-direction: column !important;
+    justify-content: center !important;
+  }
   .gp-trust-value {
-    font-size: 24px !important;
-    line-height: 1.15 !important;
+    font-size: 23px !important;
+    line-height: 1.1 !important;
+    margin-bottom: 5px !important;
   }
   .gp-trust-label {
-    font-size: 11.5px !important;
-    line-height: 1.4 !important;
+    font-size: 11px !important;
+    line-height: 1.35 !important;
     letter-spacing: 0.04em !important;
+    white-space: normal !important;
+    word-break: normal !important;
+  }
+
+  /* Internal Card Padding Harmonization Across All Containers */
+  .story-block .inner-box,
+  .story-block-two .inner-box {
+    padding: 20px 16px !important;
+  }
+  .story-block .content-column {
+    padding: 14px 0 !important;
+  }
+  .gp-review-card {
+    padding: 24px 18px !important;
+  }
+  .gp-contact-card {
+    padding: 26px 18px !important;
+  }
+  .gp-cta-box {
+    padding: 34px 20px !important;
+  }
+  .gp-comms-deck {
+    padding: 20px 16px !important;
+  }
+  .gp-showroom-card {
+    padding: 22px 18px !important;
   }
 
   /* Form Inputs (16px prevents iOS Safari auto-zoom distortion) */
