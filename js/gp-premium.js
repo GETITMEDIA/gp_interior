@@ -193,9 +193,9 @@
 
   function syncStickyHeader() {
     var stickyRight = document.querySelector('.sticky-header .right-col');
-    var topSocial = document.querySelector('.header-upper .social-outer-box');
-    if (stickyRight && topSocial && !stickyRight.querySelector('.social-outer-box')) {
-      stickyRight.appendChild(topSocial.cloneNode(true));
+    var topActions = document.querySelector('.header-upper .gp-header-actions') || document.querySelector('.header-upper .social-outer-box');
+    if (stickyRight && topActions && !stickyRight.querySelector('.gp-header-actions') && !stickyRight.querySelector('.social-outer-box')) {
+      stickyRight.appendChild(topActions.cloneNode(true));
     }
   }
 
