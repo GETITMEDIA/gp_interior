@@ -2513,7 +2513,7 @@ p, .text, .sec-title .text, li {
 .gp-cta-banner {
   position: relative;
   background-color: #17120e;
-  background-image: linear-gradient(90deg, rgba(23, 18, 14, 0.96) 0%, rgba(23, 18, 14, 0.85) 45%, rgba(23, 18, 14, 0.32) 80%, rgba(23, 18, 14, 0.12) 100%), url('../images/premium/cta-banner-bg.jpg');
+  background-image: linear-gradient(90deg, rgba(23, 18, 14, 0.82) 0%, rgba(23, 18, 14, 0.68) 45%, rgba(23, 18, 14, 0.22) 80%, rgba(23, 18, 14, 0.08) 100%), url('../images/premium/cta-banner-bg.jpg');
   background-size: cover;
   background-position: center right;
   background-repeat: no-repeat;
@@ -2733,8 +2733,8 @@ p, .text, .sec-title .text, li {
   content: '';
   position: absolute;
   inset: 0;
-  background: linear-gradient(90deg, rgba(14, 14, 13, 0.90) 0%, rgba(14, 14, 13, 0.70) 55%, rgba(14, 14, 13, 0.45) 100%),
-              linear-gradient(180deg, rgba(14, 14, 13, 0.65) 0%, transparent 40%, rgba(14, 14, 13, 0.95) 100%) !important;
+  background: linear-gradient(90deg, rgba(14, 14, 13, 0.58) 0%, rgba(14, 14, 13, 0.38) 55%, rgba(14, 14, 13, 0.18) 100%),
+              linear-gradient(180deg, rgba(14, 14, 13, 0.45) 0%, transparent 45%, rgba(14, 14, 13, 0.55) 100%) !important;
   z-index: 1;
 }
 
