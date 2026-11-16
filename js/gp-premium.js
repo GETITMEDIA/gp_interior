@@ -13,44 +13,115 @@
 
   function initScrollReveals() {
     var revealSelectors = [
-      '.sec-title',
       '.gp-about-intro',
+      '.gp-about-visual',
+      '.gp-about-card',
       '.services-block',
+      '.services-block-two',
+      '.services-block-three',
+      '.services-block-four',
+      '.services-block-five',
       '.story-block',
       '.story-block-two',
       '.gp-atelier-visual-card',
       '.gp-project-card',
+      '.project-block',
+      '.gallery-block',
       '.branded-section .image-column',
       '.gp-branded-feature-card',
       '.team-block',
       '.news-block',
       '.gp-trust-item',
+      '.gp-commitment-card',
+      '.gp-commitment-pill',
+      '.product-tab-section .image-column',
+      '.product-tab-section .tab-btn',
+      '.testimonial-block-two',
+      '.sponsors-section .image-box',
+      '.sponsors-section-two .image-box',
       '.gp-cta-box',
-      '.gp-contact-card'
+      '.gp-contact-form-card',
+      '.gp-contact-card',
+      '.gp-showroom-hub-card'
     ];
 
-    var nodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',') + ',[data-gp-reveal]'))
-      .filter(function (el) { return !el.closest('.owl-carousel'); });
-    if (!nodes.length) return;
+    var textSelectors = [
+      '.sec-title .title',
+      '.sec-title h2',
+      '.sec-title .text',
+      '.sec-title-two .title',
+      '.sec-title-two h2',
+      '.sec-title-two .text',
+      '.about-section .title-box .bold-text',
+      '.about-section .title-box .text',
+      '.gp-about-eyebrow',
+      '.gp-about-main-title',
+      '.gp-about-lead',
+      '.gp-about-body',
+      '.gp-about-highlights li',
+      '.gp-commitment-section .sec-title h2',
+      '.gp-commitment-section p',
+      '.gp-cta-eyebrow',
+      '.gp-cta-box h2',
+      '.gp-cta-box p',
+      '.gp-cta-actions',
+      '.product-tab-section .content-column .sec-title',
+      '.sponsors-section .title-box h2',
+      '.sponsors-section .title-box .text'
+    ];
 
-    nodes.forEach(function (el, idx) {
+    var footerSelectors = [
+      'footer.main-footer .gp-footer-brand',
+      'footer.main-footer .gp-footer-grid > div'
+    ];
+
+    var blockNodes = Array.prototype.slice.call(document.querySelectorAll(revealSelectors.join(',') + ',[data-gp-reveal]'))
+      .filter(function (el) { return !el.closest('.owl-carousel'); });
+
+    var textNodes = Array.prototype.slice.call(document.querySelectorAll(textSelectors.join(',') + ',[data-gp-text-reveal]'))
+      .filter(function (el) { return !el.closest('.owl-carousel') && !el.closest('.gp-cta-box') && !el.closest('.gp-about-intro'); });
+
+    // For CTA box & about intro, allow text stagger inside without hiding parent container twice
+    var ctaTextNodes = Array.prototype.slice.call(document.querySelectorAll('.gp-cta-eyebrow, .gp-cta-box h2, .gp-cta-box p, .gp-cta-actions'));
+    var allTextNodes = textNodes.concat(ctaTextNodes);
+
+    var footerNodes = Array.prototype.slice.call(document.querySelectorAll(footerSelectors.join(',')));
+
+    blockNodes.forEach(function (el, idx) {
       if (!el.hasAttribute('data-gp-reveal')) {
         el.setAttribute('data-gp-reveal', '');
-        el.style.transitionDelay = Math.min((idx % 4) * 65, 195) + 'ms';
+        el.style.transitionDelay = Math.min((idx % 4) * 70, 210) + 'ms';
       }
     });
 
+    allTextNodes.forEach(function (el, idx) {
+      if (!el.hasAttribute('data-gp-text-reveal')) {
+        el.setAttribute('data-gp-text-reveal', '');
+        el.style.transitionDelay = Math.min((idx % 4) * 80, 240) + 'ms';
+      }
+    });
+
+    footerNodes.forEach(function (el, idx) {
+      if (!el.hasAttribute('data-gp-footer-reveal')) {
+        el.setAttribute('data-gp-footer-reveal', '');
+        el.style.transitionDelay = Math.min((idx % 4) * 85, 255) + 'ms';
+      }
+    });
+
+    var allAnimatedNodes = blockNodes.concat(allTextNodes).concat(footerNodes);
+    if (!allAnimatedNodes.length) return;
+
     if (prefersReduced || !('IntersectionObserver' in window)) {
-      nodes.forEach(function (el) { el.classList.add('is-revealed'); });
+      allAnimatedNodes.forEach(function (el) { el.classList.add('is-revealed'); });
       return;
     }
 
     function revealVisibleNodes() {
       var vh = window.innerHeight || document.documentElement.clientHeight;
-      nodes.forEach(function (el) {
+      allAnimatedNodes.forEach(function (el) {
         if (el.classList.contains('is-revealed')) return;
         var rect = el.getBoundingClientRect();
-        if (rect.top <= vh + 80) {
+        if (rect.top <= vh + 140) {
           el.classList.add('is-revealed');
         }
       });
@@ -63,10 +134,12 @@
           observer.unobserve(entry.target);
         }
       });
-    }, { threshold: 0.01, rootMargin: '80px 0px 80px 0px' });
+    }, { threshold: 0.01, rootMargin: '140px 0px 140px 0px' });
 
-    nodes.forEach(function (el) { observer.observe(el); });
+    allAnimatedNodes.forEach(function (el) { observer.observe(el); });
     window.addEventListener('scroll', revealVisibleNodes, { passive: true });
+    document.addEventListener('scroll', revealVisibleNodes, { passive: true, capture: true });
+    window.addEventListener('resize', revealVisibleNodes, { passive: true });
     revealVisibleNodes();
   }
 

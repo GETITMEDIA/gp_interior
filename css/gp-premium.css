@@ -4209,12 +4209,12 @@ body.mobile-menu-visible .gp-floating-actions {
 }
 
 /* ==========================================================================
-   SCROLL REVEAL ANIMATION SYSTEM
+   SCROLL REVEAL & SMOOTH TEXT FADE ANIMATION SYSTEM
    ========================================================================== */
 [data-gp-reveal] {
   opacity: 0;
-  transform: translateY(22px) scale(0.985);
-  transition: opacity 0.62s var(--gp-ease), transform 0.62s var(--gp-ease);
+  transform: translateY(20px) scale(0.985);
+  transition: opacity 0.72s cubic-bezier(0.22, 1, 0.36, 1), transform 0.72s cubic-bezier(0.22, 1, 0.36, 1);
   will-change: opacity, transform;
 }
 
@@ -4224,7 +4224,58 @@ body.mobile-menu-visible .gp-floating-actions {
   transform: translateY(0) scale(1);
 }
 
-.owl-carousel [data-gp-reveal] {
+[data-gp-text-reveal] {
+  opacity: 0;
+  transform: translateY(14px);
+  transition: opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1), transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+[data-gp-text-reveal].is-revealed,
+[data-gp-text-reveal].gp-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+[data-gp-footer-reveal] {
+  opacity: 0;
+  transform: translateY(16px);
+  transition: opacity 0.68s cubic-bezier(0.22, 1, 0.36, 1), transform 0.68s cubic-bezier(0.22, 1, 0.36, 1);
+  will-change: opacity, transform;
+}
+
+[data-gp-footer-reveal].is-revealed,
+[data-gp-footer-reveal].gp-revealed {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Subpage Hero Smooth Entrance Animation */
+@keyframes gpHeroFadeUp {
+  0% {
+    opacity: 0;
+    transform: translateY(14px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.page-title .content .text {
+  animation: gpHeroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
+}
+
+.page-title .content h2 {
+  animation: gpHeroFadeUp 0.72s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
+}
+
+.page-title .page-breadcrumb {
+  animation: gpHeroFadeUp 0.75s cubic-bezier(0.22, 1, 0.36, 1) 0.24s both;
+}
+
+.owl-carousel [data-gp-reveal],
+.owl-carousel [data-gp-text-reveal] {
   opacity: 1 !important;
   transform: none !important;
 }
@@ -4233,10 +4284,17 @@ body.mobile-menu-visible .gp-floating-actions {
   html {
     scroll-behavior: auto;
   }
-  [data-gp-reveal] {
+  [data-gp-reveal],
+  [data-gp-text-reveal],
+  [data-gp-footer-reveal] {
     opacity: 1 !important;
     transform: none !important;
     transition: none !important;
+  }
+  .page-title .content .text,
+  .page-title .content h2,
+  .page-title .page-breadcrumb {
+    animation: none !important;
   }
 }
 
