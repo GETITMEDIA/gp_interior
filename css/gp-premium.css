@@ -4147,6 +4147,12 @@ p, .text, .sec-title .text, li {
   gap: 12px;
 }
 
+body.mobile-menu-visible .gp-floating-actions {
+  opacity: 0 !important;
+  pointer-events: none !important;
+  transition: opacity 0.2s ease;
+}
+
 .gp-float-top {
   width: 44px;
   height: 44px;
