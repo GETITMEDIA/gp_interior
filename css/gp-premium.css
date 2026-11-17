@@ -51,6 +51,7 @@ body {
 h1, h2, h3, h4, h5, h6,
 .sec-title h2,
 .sec-title-two h2,
+.page-title h1,
 .page-title h2,
 .main-menu .navigation > li > a,
 .theme-btn {
@@ -2788,7 +2789,9 @@ p, .text, .sec-title .text, li {
 }
 
 /* Main Heading */
+.page-title h1,
 .page-title h2 {
+  position: relative;
   font-family: var(--gp-font-heading) !important;
   font-size: clamp(2.3rem, 4.6vw, 3.8rem) !important;
   font-weight: 800 !important;
@@ -4302,6 +4305,7 @@ body.mobile-menu-visible .gp-floating-actions {
   animation: gpHeroFadeUp 0.65s cubic-bezier(0.22, 1, 0.36, 1) 0.05s both;
 }
 
+.page-title .content h1,
 .page-title .content h2 {
   animation: gpHeroFadeUp 0.72s cubic-bezier(0.22, 1, 0.36, 1) 0.14s both;
 }
@@ -4328,6 +4332,7 @@ body.mobile-menu-visible .gp-floating-actions {
     transition: none !important;
   }
   .page-title .content .text,
+  .page-title .content h1,
   .page-title .content h2,
   .page-title .page-breadcrumb {
     animation: none !important;
@@ -4485,6 +4490,7 @@ body.mobile-menu-visible .gp-floating-actions {
     padding: 130px 0 60px !important;
     min-height: 280px !important;
   }
+  .page-title h1,
   .page-title h2 {
     font-size: clamp(1.75rem, 6vw, 2.35rem) !important;
     line-height: 1.18 !important;
@@ -4657,6 +4663,7 @@ body.mobile-menu-visible .gp-floating-actions {
 
 @media (max-width: 420px) {
   /* Extra Small Devices (iPhone SE, Galaxy S compact screens) */
+  .page-title h1,
   .page-title h2 {
     font-size: 1.65rem !important; /* ~26px */
   }

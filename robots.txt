@@ -1,0 +1,8 @@
+User-agent: *
+Allow: /
+
+Disallow: /scratch/
+Disallow: /GP INTERIOR/
+Disallow: /default.php
+
+Sitemap: https://gpinterior.in/sitemap.xml
