@@ -4189,6 +4189,26 @@ p, .text, .sec-title .text, li {
   font-weight: 600;
 }
 
+.gp-footer-bar-inner a {
+  color: #ffffff;
+  text-decoration: none;
+  font-weight: 600;
+  transition: color 0.25s var(--gp-ease), text-shadow 0.25s var(--gp-ease);
+}
+
+.gp-footer-bar-inner a:hover,
+.gp-footer-bar-inner a:focus {
+  color: var(--gp-gold-soft);
+  text-decoration: underline;
+  text-underline-offset: 3px;
+}
+
+.gp-footer-bar-inner a strong {
+  color: inherit;
+  font-weight: 600;
+  transition: inherit;
+}
+
 @media (max-width: 1199px) {
   .gp-footer-grid {
     grid-template-columns: repeat(2, 1fr);
