@@ -1670,8 +1670,46 @@ p, .text, .sec-title .text, li {
 }
 
 .story-block .content-column .sec-title,
-.story-block-two .content-column .sec-title {
+.story-block-two .content-column .sec-title,
+.story-block-two .inner-box .content-column .sec-title {
+  text-align: left !important;
   margin-bottom: 20px !important;
+}
+
+.story-block .content-column .sec-title .inner-title,
+.story-block-two .content-column .sec-title .inner-title,
+.story-block-two .inner-box .content-column .sec-title .inner-title {
+  text-align: left !important;
+  display: block !important;
+}
+
+.story-block-two .inner-box .image-column {
+  margin-bottom: 0 !important;
+  padding-left: 0 !important;
+  padding-right: 12px !important;
+}
+
+.story-block-two .content-column .inner-column.wow {
+  animation: none !important;
+  transform: none !important;
+  visibility: visible !important;
+}
+
+@media (min-width: 992px) {
+  .story-block-two.style-two .inner-box > .clearfix {
+    display: flex !important;
+    align-items: center !important;
+  }
+}
+
+@media (max-width: 991px) {
+  .story-block-two .inner-box .image-column {
+    padding-right: 0 !important;
+    margin-bottom: 22px !important;
+  }
+  .story-block-two .content-column {
+    padding: 8px 4px !important;
+  }
 }
 
 .story-block .content-column .text p,
