@@ -16,6 +16,7 @@
       '.gp-about-intro',
       '.gp-about-visual',
       '.gp-about-card',
+      '.gp-about-founder-card',
       '.services-block',
       '.services-block-two',
       '.services-block-three',
