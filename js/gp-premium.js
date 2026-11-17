@@ -709,7 +709,17 @@
     });
   }
 
+  // Dynamic Copyright Year
+  function initDynamicYear() {
+    var currentYear = new Date().getFullYear();
+    var targets = document.querySelectorAll('#current-year, .current-year, .gp-current-year');
+    for (var i = 0; i < targets.length; i++) {
+      targets[i].textContent = currentYear;
+    }
+  }
+
   function init() {
+    initDynamicYear();
     syncActiveNavState();
     syncStickyHeader();
     initScrollReveals();
@@ -726,4 +736,9 @@
   } else {
     init();
   }
+  
+  // Immediate invocation if scripts load defer or bottom-of-body
+  try {
+    initDynamicYear();
+  } catch(e) {}
 })();

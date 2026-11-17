@@ -695,4 +695,9 @@
 		sortableMasonry();
 	});	
 
+	// Dynamic Copyright Year
+	if ($('#current-year, .current-year').length) {
+		$('#current-year, .current-year').text(new Date().getFullYear());
+	}
+
 })(window.jQuery);
