@@ -719,6 +719,49 @@
     }
   }
 
+  // Smooth Continuous Marquee for Trusted Material & Hardware Partners
+  function initSponsorsMarquee() {
+    var carousels = document.querySelectorAll('.sponsors-carousel');
+    if (!carousels.length) return;
+
+    carousels.forEach(function (carousel) {
+      if (carousel.dataset.gpMarqueeInit === '1') return;
+      carousel.dataset.gpMarqueeInit = '1';
+
+      // Strip OwlCarousel classes so it displays continuously without touch-freeze
+      carousel.classList.remove('owl-carousel', 'owl-theme', 'owl-loaded', 'owl-drag');
+      carousel.classList.add('gp-sponsors-marquee');
+
+      var originalItems = Array.prototype.slice.call(carousel.children);
+      if (!originalItems.length) return;
+
+      var track = document.createElement(carousel.tagName.toLowerCase() === 'ul' ? 'ul' : 'div');
+      track.className = 'gp-marquee-track';
+
+      // Build 2 identical halves of 2x sets each so wide screens & mobile never show gaps
+      for (var setIdx = 0; setIdx < 4; setIdx++) {
+        originalItems.forEach(function (item) {
+          var clone = item.cloneNode(true);
+          clone.classList.add('gp-marquee-item');
+          if (setIdx > 0) {
+            clone.setAttribute('aria-hidden', 'true');
+            clone.querySelectorAll('a, img').forEach(function (el) {
+              el.removeAttribute('loading');
+            });
+          } else {
+            clone.querySelectorAll('img').forEach(function (img) {
+              img.removeAttribute('loading');
+            });
+          }
+          track.appendChild(clone);
+        });
+      }
+
+      carousel.innerHTML = '';
+      carousel.appendChild(track);
+    });
+  }
+
   function init() {
     initDynamicYear();
     syncActiveNavState();
@@ -727,6 +770,7 @@
     initCounters();
     enhanceGalleryLightboxes();
     injectFloatingControls();
+    initSponsorsMarquee();
     initReviewsCarousel();
     initSmartNavbar();
     initContactFormValidation();

@@ -1571,16 +1571,40 @@ p, .text, .sec-title .text, li {
 }
 
 @media (max-width: 767px) {
+  .gp-about-intro {
+    margin-bottom: 36px;
+  }
   .gp-about-main-title {
     font-size: 1.85rem !important;
   }
   .gp-about-highlights-row {
-    flex-wrap: wrap;
-    gap: 14px;
-    padding: 16px;
+    display: grid !important;
+    grid-template-columns: repeat(3, 1fr) !important;
+    align-items: stretch !important;
+    gap: 0 !important;
+    padding: 14px 8px !important;
+    text-align: center !important;
+  }
+  .gp-about-highlight-item {
+    align-items: center;
+    justify-content: center;
+    padding: 0 6px;
+    border-right: 1px solid rgba(22, 22, 21, 0.08);
+  }
+  .gp-about-highlight-item:last-child {
+    border-right: none;
+  }
+  .gp-highlight-num {
+    font-size: clamp(1.12rem, 4.4vw, 1.4rem) !important;
+  }
+  .gp-highlight-lbl {
+    font-size: 9px !important;
+    line-height: 1.25 !important;
+    letter-spacing: 0.03em !important;
+    margin-top: 4px !important;
   }
   .gp-about-highlight-sep {
-    display: none;
+    display: none !important;
   }
   .gp-about-motto-card {
     padding: 24px 18px;
@@ -1589,21 +1613,26 @@ p, .text, .sec-title .text, li {
     font-size: 1.45rem;
   }
   .gp-about-founder-card {
-    min-height: 440px;
+    min-height: 430px;
   }
   .gp-founder-caption {
-    padding: 20px 20px 22px;
+    margin: 14px;
+    padding: 16px 18px;
   }
   .gp-founder-caption .gp-motto-quote {
-    font-size: 1.35rem;
+    font-size: 1.28rem;
   }
   .gp-about-cta-row {
-    flex-direction: column;
-    align-items: stretch;
+    flex-direction: row !important;
+    flex-wrap: wrap !important;
+    align-items: center !important;
+    gap: 10px !important;
+    margin-top: 16px !important;
   }
   .gp-about-cta-row .gp-btn-gold,
   .gp-about-cta-row .gp-btn-outline-dark {
-    width: 100%;
+    width: auto !important;
+    flex: 1 1 auto;
     justify-content: center;
   }
 }
@@ -1980,6 +2009,16 @@ p, .text, .sec-title .text, li {
   height: 460px;
   background: radial-gradient(circle, rgba(212, 168, 83, 0.14) 0%, transparent 70%);
   pointer-events: none;
+}
+
+.product-tab-section::after {
+  display: none !important;
+  content: none !important;
+}
+
+.product-tab-section > .container {
+  position: relative;
+  z-index: 2;
 }
 
 .product-tab-section .sec-title h2 {
@@ -2402,11 +2441,12 @@ p, .text, .sec-title .text, li {
   background: #ffffff;
   border: 1px solid rgba(22, 22, 21, 0.08);
   border-radius: 12px;
-  padding: 20px 24px;
+  padding: 18px 22px;
   display: flex;
   align-items: center;
   justify-content: center;
-  min-height: 98px;
+  min-height: 92px;
+  margin: 0 !important;
   box-shadow: 0 4px 16px rgba(17, 17, 16, 0.03);
   transition: transform 0.35s var(--gp-ease), border-color 0.3s ease, box-shadow 0.35s ease;
 }
@@ -2420,10 +2460,12 @@ p, .text, .sec-title .text, li {
 
 .sponsors-section .image-box img,
 .sponsors-section-two .image-box img {
-  max-height: 50px;
+  max-height: 46px !important;
+  height: auto !important;
   width: auto !important;
+  max-width: 120px !important;
   object-fit: contain;
-  filter: grayscale(15%);
+  filter: grayscale(10%);
   transition: filter 0.3s ease, transform 0.3s ease;
 }
 
@@ -2431,6 +2473,88 @@ p, .text, .sec-title .text, li {
 .sponsors-section-two .image-box:hover img {
   filter: grayscale(0%);
   transform: scale(1.05);
+}
+
+/* Smooth Non-Stop Hardware-Accelerated Logo Marquee */
+.gp-sponsors-marquee {
+  position: relative;
+  overflow: hidden !important;
+  width: 100%;
+  padding: 8px 0;
+  -webkit-mask-image: linear-gradient(to right, transparent 0%, #000000 7%, #000000 93%, transparent 100%);
+  mask-image: linear-gradient(to right, transparent 0%, #000000 7%, #000000 93%, transparent 100%);
+}
+
+.gp-marquee-track {
+  display: flex;
+  align-items: stretch;
+  gap: 20px;
+  padding-right: 20px;
+  margin: 0;
+  list-style: none;
+  width: max-content;
+  will-change: transform;
+  animation: gpSponsorsScroll 24s linear infinite;
+}
+
+.gp-sponsors-marquee:hover .gp-marquee-track {
+  animation-play-state: paused;
+}
+
+.gp-marquee-item {
+  flex: 0 0 210px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.gp-marquee-item figure {
+  margin: 0;
+  width: 100%;
+}
+
+@keyframes gpSponsorsScroll {
+  0% {
+    transform: translate3d(0, 0, 0);
+  }
+  100% {
+    transform: translate3d(-50%, 0, 0);
+  }
+}
+
+@media (max-width: 767px) {
+  .sponsors-section,
+  .sponsors-section-two {
+    padding: 44px 0 !important;
+  }
+  .sponsors-section .sec-title {
+    margin-bottom: 18px !important;
+  }
+  .gp-sponsors-marquee {
+    -webkit-mask-image: linear-gradient(to right, transparent 0%, #000000 5%, #000000 95%, transparent 100%);
+    mask-image: linear-gradient(to right, transparent 0%, #000000 5%, #000000 95%, transparent 100%);
+  }
+  .gp-marquee-track {
+    gap: 12px;
+    padding-right: 12px;
+    animation-duration: 16s;
+  }
+  .gp-marquee-item {
+    flex: 0 0 146px;
+  }
+  .sponsors-section .image-box,
+  .sponsors-section-two .image-box {
+    padding: 14px 16px;
+    min-height: 76px;
+  }
+  .sponsors-section .image-box img,
+  .sponsors-section-two .image-box img {
+    max-height: 36px !important;
+    max-width: 96px !important;
+  }
+  .gp-sponsors-marquee:hover .gp-marquee-track {
+    animation-play-state: running;
+  }
 }
 
 /* ==========================================================================
@@ -4899,15 +5023,118 @@ body.mobile-menu-visible .gp-floating-actions {
   .theme-btn,
   .btn-style-one,
   .gp-cta-submit,
-  .gp-drawer-cta-btn {
-    font-size: 13.5px !important;
+  .gp-drawer-cta-btn,
+  .gp-btn-gold,
+  .gp-btn-dark,
+  .gp-btn-outline-dark,
+  .gp-motto-cta {
+    font-size: 11.5px !important;
     letter-spacing: 0.06em !important;
-    padding: 12px 22px !important;
+    padding: 11px 20px !important;
+    line-height: 1.25 !important;
+    min-height: 44px;
+    white-space: nowrap !important;
+    justify-content: center;
+  }
+
+  /* Atelier & Design Solutions Tab Section */
+  .product-tab-section::before {
+    width: 240px !important;
+    height: 240px !important;
+    top: -60px !important;
+    right: -40px !important;
+  }
+  .product-tab-section .tab-btns {
+    gap: 8px !important;
+    margin-bottom: 18px !important;
+  }
+  .product-tab-section .design-tabs .tab-btns .tab-btn,
+  .product-tab-section .tab-btns .tab-btn {
+    width: auto !important;
+    flex: 1 1 auto !important;
+    margin: 0 !important;
+    padding: 9px 12px !important;
+    font-size: 11px !important;
+    letter-spacing: 0.06em !important;
+    text-align: center !important;
+    white-space: nowrap !important;
+  }
+  .product-tab-section .tabs-content .text {
+    font-size: 14px !important;
+    line-height: 1.62 !important;
+    margin-bottom: 14px !important;
+  }
+  .gp-atelier-points {
+    margin-bottom: 18px !important;
+  }
+  .gp-atelier-points li {
+    font-size: 13px !important;
+    align-items: flex-start !important;
+  }
+  .gp-atelier-points li i {
+    margin-top: 4px;
+    flex-shrink: 0;
+  }
+  .gp-atelier-visual-card {
+    aspect-ratio: 4 / 3 !important;
+    border-radius: var(--gp-radius-md) !important;
+  }
+  .gp-atelier-caption {
+    left: 10px !important;
+    right: 10px !important;
+    bottom: 10px !important;
+    padding: 10px 14px !important;
+    flex-direction: column-reverse !important;
+    align-items: flex-start !important;
+    gap: 3px !important;
+  }
+  .gp-atelier-caption strong {
+    font-size: 10px !important;
+    letter-spacing: 0.14em !important;
+  }
+  .gp-atelier-caption span {
+    font-size: 12.5px !important;
+    line-height: 1.35 !important;
+    width: 100% !important;
+  }
+
+  /* Commitment Section Carousel Nav */
+  .gp-commitment-section .owl-nav {
+    margin-top: 18px !important;
+    padding-bottom: 6px !important;
+  }
+
+  /* Floating Actions Compact Footprint */
+  .gp-floating-actions {
+    right: 12px !important;
+    bottom: 12px !important;
+    gap: 8px !important;
+  }
+  .gp-float-wa {
+    width: 44px !important;
+    height: 44px !important;
+    font-size: 22px !important;
+  }
+  .gp-float-top {
+    width: 36px !important;
+    height: 36px !important;
   }
 
   /* CTA Banner */
   .gp-cta-banner {
     padding: 44px 0 !important;
+  }
+  .gp-cta-eyebrow {
+    gap: 8px !important;
+  }
+  .gp-cta-line {
+    width: 16px !important;
+    flex-shrink: 0;
+  }
+  .gp-cta-tag {
+    font-size: 9.5px !important;
+    letter-spacing: 0.12em !important;
+    white-space: nowrap;
   }
   .gp-cta-box h2,
   .gp-cta-headline {
@@ -4945,6 +5172,15 @@ body.mobile-menu-visible .gp-floating-actions {
   .sec-title-two h2,
   .gp-about-main-title {
     font-size: 1.5rem !important; /* ~24px */
+  }
+  .gp-btn-gold,
+  .gp-btn-dark,
+  .gp-btn-outline-dark,
+  .gp-motto-cta {
+    font-size: 10.5px !important;
+    letter-spacing: 0.04em !important;
+    padding: 10px 15px !important;
+    gap: 6px !important;
   }
   .gp-trust-value {
     font-size: 22px !important;

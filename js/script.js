@@ -291,38 +291,7 @@
 	
 	
 	
-	// Sponsors Carousel
-	if ($('.sponsors-carousel').length) {
-		$('.sponsors-carousel').owlCarousel({
-			loop:true,
-			margin:20,
-			nav:false,
-			dots:false,
-			smartSpeed: 650,
-			autoplay: true,
-			autoplayTimeout: 2600,
-			autoplayHoverPause: true,
-			navText: [ '<span class="fa fa-angle-left"></span>', '<span class="fa fa-angle-right"></span>' ],
-			responsive:{
-				0:{
-					items:2,
-					margin:12
-				},
-				600:{
-					items:3,
-					margin:16
-				},
-				768:{
-					items:4,
-					margin:18
-				},
-				1024:{
-					items:5,
-					margin:20
-				}
-			}
-		});
-	}
+	// Sponsors Carousel is powered by smooth hardware-accelerated CSS marquee in gp-premium.js
 	
 	
 	// Story Carousel
